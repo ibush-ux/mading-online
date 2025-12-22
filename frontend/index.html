@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/mading-online/frontend/assets/css/style.css" />
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="admin-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <div class="brand-logo">📘</div>
+                <div class="brand-text">
+                    <h1>Admin Panel<span class="brand-dot">.</span></h1>
+                    <p class="brand-subtitle">Manajemen Berita & Konten</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="user-welcome">
+                    <span class="welcome-text">Selamat datang, </span>
+                    <span class="username" id="loggedUsername">admin</span>
+                </div>
+
+                <nav class="header-nav">
+                    <a href="#upload-section" class="nav-link">
+                        <span class="nav-icon">📝</span><span class="nav-text">Upload Berita</span>
+                    </a>
+
+                    <a href="#berita-section" class="nav-link">
+                        <span class="nav-icon">📰</span><span class="nav-text">Daftar Berita</span>
+                    </a>
+
+                    <a href="#profile-section" class="nav-link">
+                        <span class="nav-icon">⚙️</span><span class="nav-text">Profil Admin</span>
+                    </a>
+
+                    <button id="logoutBtn" class="nav-link logout-btn">
+                        <span class="nav-icon">🚪</span> Logout
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main">
+
+        <!-- STATISTICS OVERVIEW -->
+        <section class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-icon">📰</div>
+                <div>
+                    <div class="stat-value" id="totalBerita">0</div>
+                    <div class="stat-label">Total Berita</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📁</div>
+                <div>
+                    <div class="stat-value" id="totalFiles">0</div>
+                    <div class="stat-label">Media Terunggah</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPLOAD SECTION -->
+        <section class="upload-section" id="upload-section">
+            <div class="section-header">
+                <h2 class="section-title"><span class="title-icon">📝</span>Tambah Berita</h2>
+                <p class="section-subtitle">Unggah berita baru beserta media pendukung</p>
+            </div>
+
+        <form id="formBerita" class="upload-form" enctype="multipart/form-data">
+            <div class="form-row triple">
+                <div class="form-group">
+                    <label>Judul Berita</label>
+                    <input type="text" id="judul" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Penulis</label>
+                    <input type="text" id="penulis" />
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status">
+                    <option value="draft">Draft</option>
+                    <option value="published" selected>Published</option>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Konten Berita</label>
+                    <textarea id="konten" required></textarea>
+                </div>
+
+                <div class="form-group file-upload">
+                    <label class="file-label" for="fileUpload">
+                        <span class="file-icon">📎</span>
+                        <span class="file-text">Klik untuk memilih file (gambar, video, pdf)</span>
+                    </label>
+                    <input type="file" id="fileUpload" />
+                </div>
+
+                <div class="form-group">
+                    <img id="previewGambar" style="display:none; width:200px; margin-top:10px;">
+                    <video id="previewVideo" style="display:none; width:200px; margin-top:10px;" controls></video>
+                    <embed id="previewPdf" type="application/pdf" style="display:none; width:300px; height:400px; margin-top:10px;">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-primary" id="btnSimpan">
+                    <span class="btn-icon">💾</span> Simpan Berita
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- BERITA SECTION -->
+        <section class="berita-section" id="berita-section">
+            <div class="section-header">
+                <h2 class="section-title"><span class="title-icon">📰</span>Daftar Berita</h2>
+            </div>
+
+            <div id="daftarBerita" class="berita-container">
+                <!-- Item berita akan dirender oleh JavaScript -->
+            </div>
+        </section>
+
+        <!-- PROFILE SECTION -->
+        <section class="upload-section" id="profile-section">
+            <div class="section-header">
+                <h2 class="section-title"><span class="title-icon">⚙️</span>Profil Admin</h2>
+                <p class="section-subtitle">Perbarui username atau password admin</p>
+            </div>
+
+            <form id="updateProfileForm" class="upload-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Username Baru</label>
+                        <input type="text" id="new_username" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Password Baru</label>
+                        <input type="password" id="new_password" />
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="btnUpdateProfile" class="btn-primary">
+                        <span class="btn-icon">🔄</span> Update Profil
+                    </button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- DELETE MODAL -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Konfirmasi Hapus</h3>
+                <button class="modal-close" id="closeDeleteBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah kamu yakin ingin menghapus berita:</p>
+                <p class="delete-title" id="deleteTitle"></p>
+                <p class="delete-warning">Aksi ini tidak dapat dibatalkan.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-danger" id="confirmDeleteBtn">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+   <div id="modalEdit" class="modal">
+    <div class="modal-content">
+
+        <h2>Edit Berita</h2>
+
+        <input type="hidden" id="editId">
+
+        <label>Judul</label>
+        <input type="text" id="editJudul">
+
+        <label>Konten</label>
+        <textarea id="editKonten"></textarea>
+
+        <label>Penulis</label>
+        <input type="text" id="editPenulis">
+
+        <label>Status</label>
+        <select id="editStatus">
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+        </select>
+
+        <label>Preview File Lama</label>
+        <div id="previewEdit"></div>
+
+        <label>Upload File Baru (optional)</label>
+        <input type="file" id="editFile">
+
+        <div style="margin-top:15px">
+            <button type="button" onclick="updateBerita()">Update</button>
+            <button type="button" onclick="closeModal()">Batal</button>
+        </div>
+
+    </div>
+</div>
+
+
+    <footer class="admin-footer">
+        <p>Admin Panel Mading Online</p>
+        <p class="footer-info">Versi 1.0 | Dibangun dengan HTML, CSS dan JavaScript</p>
+    </footer>
+    <script>
+        function openEditModal(data) {
+            document.getElementById("editId").value = data.id;
+            document.getElementById("judul").value = data.judul;
+            document.getElementById("konten").value = data.konten;
+            document.getElementById("penulis").value = data.penulis;
+            document.getElementById("status").value = data.status;
+
+            document.getElementById("previewEdit").innerHTML = `
+                <img src="http://localhost/mading-online/backend/uploads/berita/${data.file}" width="150">
+            `;
+
+            document.getElementById("modalEdit").style.display = "flex";
+        }
+    </script>
+    
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

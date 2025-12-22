@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - PAPER.ID</title>
+
+    <!-- Style global + style khusus admin -->
+    <link rel="stylesheet" href="/mading-online/frontend/assets/css/style.css">
+    <link rel="stylesheet" href="/mading-online/frontend/assets/css/admin.css">
+
+    <script src="assets/js/admin.js"></script>
+</head>
+<body>
+    <div class="login-background">
+        <!-- Background Shapes -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+
+        <!-- Login Card -->
+        <div class="login-container">
+            <div class="login-card">
+                <div class="brand-section">
+                    <div class="logo">
+                        <div class="logo-icon">📰</div>
+                    </div>
+                    <h1 class="brand-title">PAPER<span class="brand-dot">.</span>ID</h1>
+                    <p class="brand-subtitle">Admin Portal</p>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <div class="input-container">
+                            <input type="text" id="username" name="username" required placeholder=" ">
+                            <label for="username">Username</label>
+                            <div class="input-icon">👤</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-container">
+                            <input type="password" id="password" name="password" required placeholder=" ">
+                            <label for="password">Password</label>
+                            <div class="input-icon">🔒</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        <span class="btn-text">Masuk ke Dashboard</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                    <div id="loginResult"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>
