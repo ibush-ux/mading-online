@@ -46,26 +46,38 @@ let editID = null;
 // ======================================================
 // PREVIEW FILE
 // ======================================================
-fileInput.addEventListener("change", function () {
-    if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            previewImg.src = e.target.result;
-            previewImg.style.display = "block";
-        };
-        reader.readAsDataURL(fileInput.files[0]);
-    }
-});
+if (fileInput) {
+    fileInput.addEventListener("change", function () {
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = "block";
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    });
+}
 
 // ======================================================
 // LOAD BERITA
 // ======================================================
 async function loadBerita() {
-    const data = await safeFetch(API_BASE + "read.php");
-
+  
     const wrapper = document.getElementById("daftarBerita");
     wrapper.innerHTML = "";
-
+  if (IS_GITHUB_PAGES) {
+        wrapper.innerHTML = `
+            <div class="berita-card">
+                <img src="assets/img/demo.jpg" class="berita-thumb">
+                <h3>Demo Berita</h3>
+                <p>Ini adalah tampilan demo portofolio (tanpa backend).</p>
+            </div>
+        `;
+        return;
+    }
+  const data = await safeFetch(API_BASE + "read.php");
+  
     if (!data.success) {
         wrapper.innerHTML = "<p>Gagal memuat data berita</p>";
         return;
@@ -139,6 +151,11 @@ async function simpanBerita() {
 // EDIT BERITA
 // ======================================================
 function editBerita(id) {
+  if (IS_GITHUB_PAGES) {
+        alert("Mode demo: fitur edit dinonaktifkan");
+        return;
+    }
+  
     fetch(API_BASE + "read_single.php?id=" + id)
         .then(r => r.json())
         .then(res => {
@@ -287,5 +304,11 @@ function closeModal() {
     document.getElementById("modalEdit").style.display = "none";
     document.getElementById("editId").value = "";  
 }
+document.addEventListener("DOMContentLoaded", () => {
+    if (!IS_GITHUB_PAGES) {
+        loadBerita();
+    } else {
+        console.info("Demo mode: berita tidak dimuat");
+    }
+});
 
-document.addEventListener("DOMContentLoaded", loadBerita);
