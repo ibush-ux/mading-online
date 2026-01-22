@@ -1,14 +1,21 @@
-const API_BASE = "http://localhost/mading-online/backend/api/berita/";
+const IS_GITHUB_PAGES = location.hostname.includes("github.io");
+
+const API_BASE = IS_GITHUB_PAGES
+  ? null
+  : "http://localhost/mading-online/backend/api/berita/";
 
 // ======================================================
 // SAFE FETCH DEBUGGING
 // ======================================================
 async function safeFetch(url, options = {}) {
+    if (IS_GITHUB_PAGES) {
+        console.info("Demo mode: fetch disabled");
+        return { success: false, demo: true };
+    }
+
     try {
         const response = await fetch(url, options);
-
         const text = await response.text();
-        console.log("RAW RESPONSE:", text);
 
         try {
             return JSON.parse(text);
